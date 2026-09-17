@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-martian), var(--font-jetbrains), monospace;
+
+  --color-brand: #fb4600;
+  --color-brand-dim: #451404;
+  --color-ink: #050505;
+  --color-panel: #0a0a0a;
+  --color-panel-2: #101010;
+  --color-line: #222222;
+  --color-line-bright: #333333;
+  --color-mute: #8a8a8a;
+  --color-mute-2: #5a5a5a;
+  --color-paper: #ededed;
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-scan: scan 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-blink: blink 1.4s steps(1, end) infinite;
+  --animate-sweep: sweep 3.2s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes scan {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    55% {
+      opacity: 1;
+    }
+    56%,
+    100% {
+      opacity: 0.15;
+    }
+  }
+
+  @keyframes sweep {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv01";
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #000;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand);
+}
+
+@utility label {
+  font-size: 0.625rem;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+}
+
+/* Thin engineering grid, used as a section backdrop */
+@utility grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Four corner ticks — the "aim square" motif */
+@utility aim {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    pointer-events: none;
+    border-color: var(--color-brand);
+    transition: border-color 0.25s ease;
+  }
+
+  &::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+
+  &::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+}
+
+@utility hairline {
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--color-line-bright) 12%,
+    var(--color-line-bright) 88%,
+    transparent
+  );
+}
