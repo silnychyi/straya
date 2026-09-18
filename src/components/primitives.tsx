@@ -123,13 +123,15 @@ export function Corners({
 export function SectionHeader({
   title,
   meta,
+  line = true,
 }: {
   title: string;
   meta?: string;
+  line?: boolean;
 }) {
   return (
     <div className="mb-10 md:mb-14">
-      <DrawLine className="mb-6" />
+      {line ? <DrawLine className="mb-6" /> : null}
       <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
         <h2 className="font-display text-xl leading-snug font-medium tracking-tight uppercase md:text-3xl md:leading-snug">
           {title}

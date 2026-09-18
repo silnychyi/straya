@@ -1,9 +1,23 @@
 "use client";
 
 import { motion } from "motion/react";
-import { DroneFrame } from "./DroneFrame";
+import Image from "next/image";
 import { Logo } from "./Logo";
+import { ParallaxY } from "./Parallax";
 import img1 from "@/img/img1.png";
+
+function SpecsLink({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href="#specifications"
+      className={`aim group relative border border-line px-6 py-3.5 text-center transition-colors hover:border-line-bright ${className}`}
+    >
+      <span className="label transition-colors group-hover:text-brand">
+        View specifications
+      </span>
+    </a>
+  );
+}
 
 export function Hero() {
   return (
@@ -15,8 +29,8 @@ export function Hero() {
       />
 
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="grid items-end gap-10 pt-12 pb-8 md:pt-20 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-7">
+        <div className="grid items-center gap-5 pt-6 pb-6 md:gap-8 md:pt-16 md:pb-16 lg:grid-cols-12 lg:gap-0">
+          <div className="relative z-10 order-1 lg:col-span-5">
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -51,26 +65,32 @@ export function Hero() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.42 }}
-              className="mt-8 md:mt-10"
+              className="mt-8 hidden md:mt-10 lg:block"
             >
-              <a
-                href="#specifications"
-                className="aim group relative inline-block border border-line px-6 py-3.5 transition-colors hover:border-line-bright"
-              >
-                <span className="label transition-colors group-hover:text-brand">
-                  View specifications
-                </span>
-              </a>
+              <SpecsLink className="inline-block" />
             </motion.div>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 26 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative order-2 pb-8 lg:col-span-7 lg:pb-0"
           >
-            <DroneFrame src={img1} priority />
+            <div className="relative mx-auto w-[90%] lg:ml-auto lg:w-full lg:max-w-[600px]">
+              <ParallaxY>
+                <Image
+                  src={img1}
+                  alt="Straya FP-5 interceptor"
+                  priority
+                  sizes="(max-width: 1024px) 90vw, 600px"
+                  className="h-auto w-full"
+                />
+              </ParallaxY>
+              <div className="absolute inset-x-0 bottom-0 z-10 translate-y-1/2 lg:hidden">
+                <SpecsLink className="block w-full bg-ink/80 backdrop-blur-sm" />
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
