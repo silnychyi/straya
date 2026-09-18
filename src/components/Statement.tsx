@@ -1,8 +1,10 @@
 "use client";
 
 import { Reveal } from "./primitives";
+import { useI18n } from "./I18nProvider";
 
 export function Statement() {
+  const { t } = useI18n();
   return (
     <section className="relative overflow-hidden border-y border-line bg-panel">
       <div
@@ -14,16 +16,15 @@ export function Statement() {
         <Reveal>
           <div className="grid items-center md:grid-cols-[1fr_1px_1fr]">
             <p className="text-center font-display text-xl leading-snug font-medium tracking-tight uppercase md:pr-12 md:text-right md:text-3xl md:leading-snug">
-              Designed in the Netherlands
+              {t.statement.netherlands}
             </p>
             <span aria-hidden className="my-8 block h-px w-full bg-line md:my-0 md:h-full md:w-px" />
             <p className="text-center font-display text-xl leading-snug font-medium tracking-tight uppercase md:pl-12 md:text-left md:text-3xl md:leading-snug">
-              Combat deployment in Ukraine
+              {t.statement.ukraine}
             </p>
           </div>
           <p className="mx-auto mt-10 max-w-xl text-center text-sm leading-relaxed text-mute md:mt-14">
-            Manufactured by Ukrainian military veterans during their
-            rehabilitation, in collaboration with the National Guard of Ukraine.
+            {t.statement.body}
           </p>
         </Reveal>
       </div>

@@ -4,22 +4,25 @@ import { motion } from "motion/react";
 import Image from "next/image";
 import { Logo } from "./Logo";
 import { ParallaxY } from "./Parallax";
+import { useI18n } from "./I18nProvider";
 import img1 from "@/img/img1.png";
 
 function SpecsLink({ className = "" }: { className?: string }) {
+  const { t } = useI18n();
   return (
     <a
       href="#specifications"
       className={`aim group relative border border-line px-6 py-3.5 text-center transition-colors hover:border-line-bright ${className}`}
     >
-      <span className="label transition-colors group-hover:text-brand">
-        View specifications
+      <span className="label text-xs tracking-[0.18em] transition-colors group-hover:text-brand">
+        {t.hero.viewSpecs}
       </span>
     </a>
   );
 }
 
 export function Hero() {
+  const { t } = useI18n();
   return (
     <section id="top" className="relative overflow-hidden pt-14 md:pt-16">
       <div aria-hidden className="absolute inset-0 grid-bg opacity-60" />
@@ -58,7 +61,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.28 }}
               className="mt-6 max-w-lg font-display text-sm tracking-[0.08em] uppercase text-mute md:mt-8 md:text-lg"
             >
-              Autonomous counter-UAS interceptor
+              {t.hero.subtitle}
             </motion.p>
 
             <motion.div
@@ -81,10 +84,10 @@ export function Hero() {
               <ParallaxY>
                 <Image
                   src={img1}
-                  alt="Straya FP-5 interceptor"
+                  alt={t.hero.imageAlt}
                   priority
                   sizes="(max-width: 1024px) 90vw, 600px"
-                  className="h-auto w-full"
+                  className="h-auto w-full drop-shadow-[0_16px_24px_rgba(0,0,0,0.5)]"
                 />
               </ParallaxY>
               <div className="absolute inset-x-0 bottom-0 z-10 translate-y-1/2 lg:hidden">

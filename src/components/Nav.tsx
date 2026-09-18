@@ -9,10 +9,12 @@ import {
   useTransform,
 } from "motion/react";
 import { useEffect, useState } from "react";
-import { NAV_LINKS } from "@/lib/content";
+import { useI18n } from "./I18nProvider";
+import { LangSwitcher } from "./LangSwitcher";
 import { Logo } from "./Logo";
 
 export function Nav() {
+  const { t, href } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [logoLive, setLogoLive] = useState(false);
   const [open, setOpen] = useState(false);
@@ -97,39 +99,42 @@ export function Nav() {
               : "border-transparent"
         }`}
       >
-        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-5 md:h-16 md:px-10">
+        <div className="relative mx-auto flex h-14 max-w-[1400px] items-center px-5 md:h-16 md:px-10">
           <motion.a
-            href="#top"
-            aria-label="Straya home"
+            href={href()}
+            aria-label={t.nav.home}
             aria-hidden={!logoVisible}
             tabIndex={logoVisible ? 0 : -1}
             style={{ opacity: open ? 1 : scrollOpacity }}
             onClick={() => setOpen(false)}
-            className={`text-paper ${logoVisible ? "" : "pointer-events-none"}`}
+            className={`absolute inset-y-0 left-5 flex items-center text-paper md:left-10 ${logoVisible ? "" : "pointer-events-none"}`}
           >
             <Logo className="h-4 w-auto md:h-5" />
           </motion.a>
 
-          <nav className="hidden items-center gap-8 lg:flex">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="label relative py-2 transition-colors hover:text-paper"
-              >
-                {link.label}
-                <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-brand transition-all duration-300 hover:w-full" />
-              </a>
-            ))}
-          </nav>
+          <div className="ml-auto flex shrink-0 items-center gap-5 lg:gap-7">
+            <nav className="hidden items-center gap-8 lg:flex">
+              {t.nav.links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="label relative py-2 text-xs tracking-[0.18em] transition-colors hover:text-paper"
+                >
+                  {link.label}
+                  <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-brand transition-all duration-300 hover:w-full" />
+                </a>
+              ))}
+            </nav>
 
-          <button
-            type="button"
-            aria-label="Toggle menu"
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="flex items-center gap-2.5 lg:hidden"
-          >
+            <LangSwitcher />
+
+            <button
+              type="button"
+              aria-label={t.nav.menu}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              className="flex shrink-0 items-center gap-2.5 lg:hidden"
+            >
             <span className="relative block h-3 w-4">
               <span
                 className={`absolute inset-x-0 top-1/2 h-px origin-center bg-paper transition-transform duration-300 ${
@@ -147,8 +152,11 @@ export function Nav() {
                 }`}
               />
             </span>
-            <span className="label text-paper">Menu</span>
+            <span className="label text-xs tracking-[0.18em] whitespace-nowrap text-paper">
+              {t.nav.menu}
+            </span>
           </button>
+          </div>
         </div>
       </div>
 
@@ -163,7 +171,7 @@ export function Nav() {
           >
             <div aria-hidden className="absolute inset-0 grid-bg opacity-50" />
             <div className="relative flex h-dvh flex-col justify-center px-5 pt-14">
-              {NAV_LINKS.map((link, i) => (
+              {t.nav.links.map((link, i) => (
                 <motion.a
                   key={link.href}
                   href={link.href}

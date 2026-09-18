@@ -3,11 +3,12 @@
 import { motion } from "motion/react";
 import Image from "next/image";
 import img2 from "@/img/img2.png";
-import { SYSTEMS } from "@/lib/content";
 import { ParallaxY } from "./Parallax";
 import { Corners, Reveal, SectionHeader } from "./primitives";
+import { useI18n } from "./I18nProvider";
 
 export function Systems() {
+  const { t } = useI18n();
   return (
     <section id="systems" className="relative overflow-hidden">
       <div className="relative top-[50px] w-full md:mx-auto md:max-w-[1100px] md:px-10">
@@ -15,7 +16,7 @@ export function Systems() {
           <ParallaxY>
             <Image
               src={img2}
-              alt="Straya FP-5 interceptor fleet"
+              alt={t.systems.imageAlt}
               sizes="(max-width: 768px) 105vw, 1100px"
               className="h-auto w-full"
             />
@@ -28,10 +29,10 @@ export function Systems() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1400px] px-5 pb-20 md:px-10 md:pb-28">
-        <SectionHeader title="In-house systems" line={false} />
+        <SectionHeader title={t.systems.title} line={false} />
 
         <div className="grid gap-px bg-line md:grid-cols-2">
-          {SYSTEMS.map((system, i) => (
+          {t.systems.items.map((system, i) => (
             <Reveal key={system.codename} delay={i * 0.1} className="h-full">
               <article className="group relative h-full bg-ink p-6 transition-colors duration-500 hover:bg-panel md:p-10">
                 <Corners
