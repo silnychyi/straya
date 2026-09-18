@@ -1,18 +1,47 @@
 "use client";
 
-import {
-  animate,
-  motion,
-  useInView,
-  useReducedMotion,
-  type Transition,
-} from "motion/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 
-export const EASE_OUT: Transition = {
+export const EASE_OUT = {
   duration: 0.7,
   ease: [0.16, 1, 0.3, 1],
-};
+} as const;
+
+function enterStyle(delay: number, y: number, duration: number): CSSProperties {
+  return {
+    animationDelay: `${delay}s`,
+    animationDuration: `${duration}s`,
+    ["--enter-y" as string]: `${y}px`,
+  };
+}
+
+/** CSS fade-up — runs in the browser even if JS hydration is late. */
+export function FadeUp({
+  children,
+  className = "",
+  delay = 0,
+  y = 14,
+  duration = 0.8,
+  as: Tag = "div",
+  ...rest
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  y?: number;
+  duration?: number;
+  as?: "div" | "p";
+} & HTMLAttributes<HTMLElement>) {
+  return (
+    <Tag
+      className={`animate-fade-up ${className}`}
+      style={enterStyle(delay, y, duration)}
+      {...rest}
+    >
+      {children}
+    </Tag>
+  );
+}
 
 /** Fades + lifts content into view once, with an optional stagger delay. */
 export function Reveal({
@@ -27,27 +56,20 @@ export function Reveal({
   className?: string;
 }) {
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-12% 0px" }}
-      transition={{ ...EASE_OUT, delay }}
+    <div
+      className={`animate-fade-up ${className ?? ""}`}
+      style={enterStyle(delay, y, 0.7)}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-/** A 1px rule that draws itself horizontally when scrolled into view. */
+/** A 1px rule that draws itself horizontally. */
 export function DrawLine({ className = "" }: { className?: string }) {
   return (
-    <motion.div
-      className={`h-px w-full origin-left bg-line-bright ${className}`}
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+    <div
+      className={`h-px w-full origin-left animate-draw-x bg-line-bright ${className}`}
     />
   );
 }
@@ -56,36 +78,11 @@ export function DrawLine({ className = "" }: { className?: string }) {
 export function Counter({
   value,
   decimals = 0,
-  duration = 1.4,
 }: {
   value: number;
   decimals?: number;
-  duration?: number;
 }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const reduced = useReducedMotion();
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    if (reduced) {
-      setDisplay(value);
-      return;
-    }
-    const controls = animate(0, value, {
-      duration,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setDisplay(v),
-    });
-    return () => controls.stop();
-  }, [inView, value, duration, reduced]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      {display.toFixed(decimals)}
-    </span>
-  );
+  return <span className="tabular-nums">{value.toFixed(decimals)}</span>;
 }
 
 /** Four corner ticks framing a panel. */

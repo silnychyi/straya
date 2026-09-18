@@ -15,7 +15,29 @@
   --color-mute-2: #5a5a5a;
   --color-paper: #ededed;
 
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-draw-x: draw-x 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-marquee: marquee 38s linear infinite;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(var(--enter-y, 14px));
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes draw-x {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
   --animate-scan: scan 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   --animate-blink: blink 1.4s steps(1, end) infinite;
   --animate-sweep: sweep 3.2s linear infinite;
@@ -69,6 +91,15 @@
 
 * {
   border-radius: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-draw-x {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 html {

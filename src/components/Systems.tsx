@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import Image from "next/image";
 import img2 from "@/img/img2.png";
 import { ParallaxY } from "./Parallax";
@@ -49,12 +48,9 @@ export function Systems() {
                   {system.codename}
                 </h3>
 
-                <motion.div
-                  className="mt-6 h-px origin-left bg-line-bright"
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.9, delay: 0.2 + i * 0.1 }}
+                <div
+                  className="mt-6 h-px origin-left animate-draw-x bg-line-bright"
+                  style={{ animationDelay: `${0.2 + i * 0.1}s` }}
                 />
 
                 <p className="mt-6 text-sm leading-relaxed text-mute">
